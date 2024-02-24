@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "377073179829",
+    "firebase_url": "https://canta-65d33-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "canta-65d33",
+    "storage_bucket": "canta-65d33.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377073179829:android:bcc0ae78a7316564dc72fc",
+        "android_client_info": {
+          "package_name": "com.yemekqr.pakettakip"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-obRQUAREfFDP5GufgX8QyepYHN4DsJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
