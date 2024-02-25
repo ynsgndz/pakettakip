@@ -1,4 +1,4 @@
-package com.yemekqr.pakettakip
+package com.primetasche.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pakettakip/page/admin_home_page.dart';
-import 'package:pakettakip/page/admin_map_page.dart';
-import 'package:pakettakip/page/canta_add_page.dart';
-import 'package:pakettakip/page/canta_list_page.dart';
-import 'package:pakettakip/page/canta_teslim_al_page.dart';
-import 'package:pakettakip/page/canta_teslim_et_page.dart';
-import 'package:pakettakip/page/kurye/kurye_map.dart';
-import 'package:pakettakip/page/kurye/kurye_add_page.dart';
-import 'package:pakettakip/page/kurye/kurye_home_page.dart';
-import 'package:pakettakip/page/kurye/kurye_list_page.dart';
-import 'package:pakettakip/page/login_page.dart';
-import 'package:pakettakip/page/map.dart';
-import 'package:pakettakip/page/qr_camera_page.dart';
-import 'package:pakettakip/page/select_account_page.dart';
-import 'package:pakettakip/page/splash_page.dart';
-import 'package:pakettakip/page/teslimat_page.dart';
+import 'package:PrimeTasche/page/admin_home_page.dart';
+import 'package:PrimeTasche/page/admin_map_page.dart';
+import 'package:PrimeTasche/page/canta_add_page.dart';
+import 'package:PrimeTasche/page/canta_list_page.dart';
+import 'package:PrimeTasche/page/canta_teslim_al_page.dart';
+import 'package:PrimeTasche/page/canta_teslim_et_page.dart';
+import 'package:PrimeTasche/page/kurye/kurye_map.dart';
+import 'package:PrimeTasche/page/kurye/kurye_add_page.dart';
+import 'package:PrimeTasche/page/kurye/kurye_home_page.dart';
+import 'package:PrimeTasche/page/kurye/kurye_list_page.dart';
+import 'package:PrimeTasche/page/login_page.dart';
+import 'package:PrimeTasche/page/map.dart';
+import 'package:PrimeTasche/page/qr_camera_page.dart';
+import 'package:PrimeTasche/page/select_account_page.dart';
+import 'package:PrimeTasche/page/splash_page.dart';
+import 'package:PrimeTasche/page/teslimat_page.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
@@ -89,14 +89,14 @@ GoRouter routes = GoRouter(
         return const MapPage();
       },
     ),
-     GoRoute(
+    GoRoute(
       parentNavigatorKey: rootNavigatorKey,
       path: '/teslimat',
       builder: (context, state) {
         return const TeslimatListPage();
       },
     ),
-        GoRoute(
+    GoRoute(
       parentNavigatorKey: rootNavigatorKey,
       path: '/adminmappage',
       builder: (context, state) {
@@ -124,7 +124,7 @@ GoRouter routes = GoRouter(
         return const CantaTeslimEtPage();
       },
     ),
-        GoRoute(
+    GoRoute(
       parentNavigatorKey: rootNavigatorKey,
       path: '/cantateslimal',
       builder: (context, state) {

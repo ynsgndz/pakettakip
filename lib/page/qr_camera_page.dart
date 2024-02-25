@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pakettakip/controller/input_controller.dart';
-import 'package:pakettakip/main.dart';
-import 'package:pakettakip/route_provider.dart';
+import 'package:PrimeTasche/controller/input_controller.dart';
+import 'package:PrimeTasche/main.dart';
+import 'package:PrimeTasche/route_provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QrCameraPage extends StatelessWidget {
@@ -37,7 +37,9 @@ class QrCameraPage extends StatelessWidget {
       container.read(inputProvider).qr.text = scanData.code ?? "";
       print("qr=>${scanData.code}");
 
-      if (container.read(routeProvider).location != "/bagadd"&&container.read(routeProvider).location != "/cantateslimet"&&container.read(routeProvider).location != "/cantateslimal") {
+      if (container.read(routeProvider).location != "/bagadd" &&
+          container.read(routeProvider).location != "/cantateslimet" &&
+          container.read(routeProvider).location != "/cantateslimal") {
         container.read(routeProvider).pop();
       }
     });

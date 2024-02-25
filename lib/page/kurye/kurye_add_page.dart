@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:pakettakip/controller/input_controller.dart';
-import 'package:pakettakip/controller/kurye_controller.dart';
-import 'package:pakettakip/main.dart';
-import 'package:pakettakip/route_provider.dart';
+import 'package:PrimeTasche/controller/input_controller.dart';
+import 'package:PrimeTasche/controller/kurye_controller.dart';
+import 'package:PrimeTasche/main.dart';
+import 'package:PrimeTasche/route_provider.dart';
 import 'package:riverpod_context/riverpod_context.dart';
 
 var auth = FirebaseAuth.instance;
@@ -134,8 +134,6 @@ class KuryeAddPage extends StatelessWidget {
                   onPressed: () async {
                     await container.read(kuryeListProvider).register(
                         context.read(inputProvider).kuryeEkleMail.text, context.read(inputProvider).kuryeEklepass.text);
-
-                   
                   },
                   child: const SizedBox(
                     width: double.infinity,

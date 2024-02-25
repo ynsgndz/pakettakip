@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pakettakip/controller/base_controller.dart';
+import 'package:PrimeTasche/controller/base_controller.dart';
 
 class InputController extends BaseController {
   var mail = TextEditingController();

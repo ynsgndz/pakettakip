@@ -4,10 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:location/location.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:pakettakip/controller/canta_list_controller.dart';
-import 'package:pakettakip/controller/base_controller.dart';
+import 'package:PrimeTasche/controller/canta_list_controller.dart';
+import 'package:PrimeTasche/controller/base_controller.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:pakettakip/main.dart';
+import 'package:PrimeTasche/main.dart';
 
 String packetKey = "";
 

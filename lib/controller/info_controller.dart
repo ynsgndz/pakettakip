@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pakettakip/controller/canta_list_controller.dart';
-import 'package:pakettakip/controller/base_controller.dart';
-import 'package:pakettakip/main.dart';
+import 'package:PrimeTasche/controller/canta_list_controller.dart';
+import 'package:PrimeTasche/controller/base_controller.dart';
+import 'package:PrimeTasche/main.dart';
 
 class InfoController extends BaseController {
   int adreste = 0;
@@ -44,7 +44,7 @@ class InfoController extends BaseController {
         }
       },
     );
-   state= DataState.loading;
+    state = DataState.loading;
     return Future(() => true);
   }
 }

@@ -4,10 +4,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:pakettakip/controller/base_controller.dart';
-import 'package:pakettakip/controller/input_controller.dart';
-import 'package:pakettakip/main.dart';
-import 'package:pakettakip/route_provider.dart';
+import 'package:PrimeTasche/controller/base_controller.dart';
+import 'package:PrimeTasche/controller/input_controller.dart';
+import 'package:PrimeTasche/main.dart';
+import 'package:PrimeTasche/route_provider.dart';
 
 Map<dynamic, dynamic> kuryeListe = {};
 

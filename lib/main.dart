@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:pakettakip/controller/canta_list_controller.dart';
-import 'package:pakettakip/controller/connection_controller.dart';
-import 'package:pakettakip/controller/kurye_controller.dart';
-import 'package:pakettakip/firebase_options.dart';
-import 'package:pakettakip/route_provider.dart';
+import 'package:PrimeTasche/controller/canta_list_controller.dart';
+import 'package:PrimeTasche/controller/connection_controller.dart';
+import 'package:PrimeTasche/controller/kurye_controller.dart';
+import 'package:PrimeTasche/firebase_options.dart';
+import 'package:PrimeTasche/route_provider.dart';
 import 'package:riverpod_context/riverpod_context.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 
@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
         if (user.uid == "KgudjIDXmtdp3zke7WWANtbRXUv1") {
           context.read(kuryeListProvider).getKurye();
           context.read(routeProvider).go("/adminhome");
-           user.updateDisplayName("Admin");
+          user.updateDisplayName("Admin");
         } else {
           context.read(routeProvider).go("/home");
         }

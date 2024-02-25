@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:pakettakip/controller/canta_list_controller.dart';
-import 'package:pakettakip/controller/input_controller.dart';
-import 'package:pakettakip/main.dart';
-import 'package:pakettakip/route_provider.dart';
+import 'package:PrimeTasche/controller/canta_list_controller.dart';
+import 'package:PrimeTasche/controller/input_controller.dart';
+import 'package:PrimeTasche/main.dart';
+import 'package:PrimeTasche/route_provider.dart';
 import 'package:riverpod_context/riverpod_context.dart';
 
 var auth = FirebaseAuth.instance;
@@ -124,7 +124,7 @@ class CantaTeslimAlPage extends StatelessWidget {
                               }
                             });
 
-                            showSimpleNotification(Text("${tempSayi+1} adet çantanız var"), background: Colors.blue);
+                            showSimpleNotification(Text("${tempSayi + 1} adet çantanız var"), background: Colors.blue);
                           } else {
                             showSimpleNotification(const Text("Bu QR kodu sistemde tanımlı değil."),
                                 background: Colors.blue);

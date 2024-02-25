@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pakettakip/controller/canta_list_controller.dart';
-import 'package:pakettakip/controller/base_controller.dart';
-import 'package:pakettakip/controller/info_controller.dart';
-import 'package:pakettakip/controller/kurye_controller.dart';
-import 'package:pakettakip/route_provider.dart';
+import 'package:PrimeTasche/controller/canta_list_controller.dart';
+import 'package:PrimeTasche/controller/base_controller.dart';
+import 'package:PrimeTasche/controller/info_controller.dart';
+import 'package:PrimeTasche/controller/kurye_controller.dart';
+import 'package:PrimeTasche/route_provider.dart';
 import 'package:riverpod_context/riverpod_context.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 
@@ -28,7 +28,7 @@ class _BagListPageState extends State<TeslimatListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
         title: Row(
           children: [
             Text(

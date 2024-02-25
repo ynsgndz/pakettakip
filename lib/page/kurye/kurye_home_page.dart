@@ -5,14 +5,14 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location/location.dart';
-import 'package:pakettakip/controller/canta_list_controller.dart';
-import 'package:pakettakip/controller/base_controller.dart';
-import 'package:pakettakip/controller/connection_controller.dart';
-import 'package:pakettakip/controller/info_controller.dart';
-import 'package:pakettakip/controller/input_controller.dart';
-import 'package:pakettakip/controller/map_controller.dart';
-import 'package:pakettakip/main.dart';
-import 'package:pakettakip/route_provider.dart';
+import 'package:PrimeTasche/controller/canta_list_controller.dart';
+import 'package:PrimeTasche/controller/base_controller.dart';
+import 'package:PrimeTasche/controller/connection_controller.dart';
+import 'package:PrimeTasche/controller/info_controller.dart';
+import 'package:PrimeTasche/controller/input_controller.dart';
+import 'package:PrimeTasche/controller/map_controller.dart';
+import 'package:PrimeTasche/main.dart';
+import 'package:PrimeTasche/route_provider.dart';
 import 'package:riverpod_context/riverpod_context.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -96,7 +96,6 @@ class _KuryeHomePageState extends State<KuryeHomePage> {
                       context.read(routeProvider).push("/cantateslimal");
                       context.read(routeProvider).push("/qrcamera");
                       context.read(mapProvider).konumuGetir();
-                     
                     },
                     child: const SizedBox(
                       width: double.infinity,

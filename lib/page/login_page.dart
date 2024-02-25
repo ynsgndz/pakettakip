@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:pakettakip/controller/input_controller.dart';
-import 'package:pakettakip/main.dart';
+import 'package:PrimeTasche/controller/input_controller.dart';
+import 'package:PrimeTasche/main.dart';
 import 'package:riverpod_context/riverpod_context.dart';
 
 class LoginPage extends StatefulWidget {
@@ -129,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                                 email: context.read(inputProvider).mail.text,
                                 password: context.read(inputProvider).pass.text);
                           } on FirebaseAuthException catch (e) {
-                             showSimpleNotification(Text("Mail veya şifre yanlış."), background: Colors.blue);
+                            showSimpleNotification(Text("Mail veya şifre yanlış."), background: Colors.blue);
                           }
                         },
                         child: const SizedBox(
