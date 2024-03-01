@@ -27,7 +27,7 @@ class InfoController extends BaseController {
   }
 
   Future<bool> getInfoByMail(String mail) {
-    state = DataState.loading;
+   // state = DataState.loading;
     adreste = 0;
     kuryede = 0;
 
@@ -44,7 +44,7 @@ class InfoController extends BaseController {
         }
       },
     );
-    state = DataState.loading;
+   // state = DataState.loading;
     return Future(() => true);
   }
 }

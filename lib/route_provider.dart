@@ -1,3 +1,5 @@
+import 'package:PrimeTasche/page/kurye/kurye_sec_page.dart';
+import 'package:PrimeTasche/page/qr_islem_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -45,6 +47,13 @@ GoRouter routes = GoRouter(
         return const BagAddPage();
       },
     ),
+     GoRoute(
+      parentNavigatorKey: rootNavigatorKey,
+      path: '/kuryesec',
+      builder: (context, state) {
+        return const KuryeSecPage();
+      },
+    ),
     GoRoute(
       parentNavigatorKey: rootNavigatorKey,
       path: '/kuryeadd',
@@ -64,6 +73,13 @@ GoRouter routes = GoRouter(
       path: '/baglist',
       builder: (context, state) {
         return const BagListPage();
+      },
+    ),
+     GoRoute(
+      parentNavigatorKey: rootNavigatorKey,
+      path: '/qrislem',
+      builder: (context, state) {
+        return const QrIslemPage();
       },
     ),
     GoRoute(

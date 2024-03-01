@@ -1,3 +1,4 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:PrimeTasche/route_provider.dart';
@@ -23,10 +24,25 @@ class AccountSelectPage extends StatelessWidget {
           )),
           child: Column(
             children: [
-              const Gap(30),
-              const Text(
-                "Hesabınızın türünü seçin",
-                style: TextStyle(fontSize: 18, color: Colors.blueAccent),
+              Gap(30),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Hesabınızın türünü seçin",
+                        style: TextStyle(fontSize: 18, color: Colors.blueAccent),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [context.read(languageProvider).languageWidget, Gap(20)],
+                  ),
+                ],
               ),
               Expanded(
                 child: Column(

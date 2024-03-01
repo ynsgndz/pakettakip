@@ -39,7 +39,8 @@ class QrCameraPage extends StatelessWidget {
 
       if (container.read(routeProvider).location != "/bagadd" &&
           container.read(routeProvider).location != "/cantateslimet" &&
-          container.read(routeProvider).location != "/cantateslimal") {
+          container.read(routeProvider).location != "/cantateslimal" &&
+          container.read(routeProvider).location != "/qrislem") {
         container.read(routeProvider).pop();
       }
     });

@@ -170,6 +170,29 @@ class AdminHomePage extends StatelessWidget {
                       ),
                     )),
               ),
+              Container(
+                margin: const EdgeInsets.all(16),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.zero, side: BorderSide(color: Colors.transparent))),
+                    onPressed: () {
+                      //context.read(bagListProvider).ver();
+                      context.read(routeProvider).push("/qrislem");
+                      context.read(routeProvider).push("/qrcamera");
+                    },
+                    child: const SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          "QR ile çanta işlemleri",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    )),
+              ),
               const Gap(16),
               Consumer(
                 builder: (context, ref, child) {

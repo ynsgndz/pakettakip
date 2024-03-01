@@ -55,7 +55,7 @@ class KuryeController extends BaseController {
     scoresRef.onChildAdded.listen((event) {
       kuryeListe[event.snapshot.key] = event.snapshot.value;
       state = DataState.loading;
-      state = DataState.loading;
+      state = DataState.data;
     });
   }
 }
