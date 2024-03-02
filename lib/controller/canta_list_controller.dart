@@ -13,6 +13,7 @@ Map<dynamic, dynamic> cantalarKuryedeListe = {};
 Map<dynamic, dynamic> cantalarDepodaListe = {};
 Map<dynamic, dynamic> cantalarTeslimatListe = {};
 bool flag = true;
+bool oneShotflag = true;
 
 class BagListController extends BaseController {
   int selectedIndex = -1;
@@ -33,6 +34,7 @@ class BagListController extends BaseController {
 
   void setSelectedBagQR(String qr) {
     selectedBagQr = qr;
+    print("QR is : $qr");
   }
 
   Map<dynamic, dynamic> cantaVer() {
@@ -52,9 +54,6 @@ class BagListController extends BaseController {
   }
 
   void selectIndex(int number) {
-    if (number == -1) {
-      selectedBagQr = "";
-    }
     selectedIndex = number;
     notifyListeners();
   }
@@ -66,7 +65,7 @@ class BagListController extends BaseController {
     }
     if (cantalarListe[selectedBagQr]["inAdress"] == false) {
       if (cantalarListe[selectedBagQr]["inCourier"] == false) {
-         showSimpleNotification(const Text("Çanta zaten depoda"), background: Colors.blue);
+        showSimpleNotification(const Text("Çanta zaten depoda"), background: Colors.blue);
         return;
       }
       try {
@@ -79,9 +78,12 @@ class BagListController extends BaseController {
           "location": {"lat": 0, "lon": 0},
           "packetNo": 0
         });
+
+        selectIndex(-1);
+        state = DataState.loading;
+        singleShot();
         showSimpleNotification(const Text("Çanta Başarıyla depoya alındı"), background: Colors.blue);
         selectedBagQr = "";
-        selectIndex(-1);
       } on FirebaseException catch (e) {
         showSimpleNotification(Text(e.message ?? "Bilinmeyen Hata"), background: Colors.blue);
       }
@@ -102,6 +104,8 @@ class BagListController extends BaseController {
           "location": {"lat": 0, "lon": 0},
           "packetNo": 0
         });
+        state = DataState.loading;
+        singleShot();
         showSimpleNotification(const Text("Çanta Başarıyla kuryeye zimmetlendi."), background: Colors.blue);
       } on FirebaseException catch (e) {
         showSimpleNotification(Text(e.message ?? "Bilinmeyen Hata"), background: Colors.blue);
@@ -163,7 +167,7 @@ class BagListController extends BaseController {
         cantalarTeslimatListe[event.snapshot.key] = event.snapshot.value;
       }
       state = DataState.loading;
-      state = DataState.data;
+      singleShot();
     });
     scoresRef.onChildChanged.listen((event) {
       cantalarListe[event.snapshot.key] = event.snapshot.value;
@@ -182,8 +186,18 @@ class BagListController extends BaseController {
         cantalarTeslimatListe[event.snapshot.key] = event.snapshot.value;
       }
       state = DataState.loading;
-      state = DataState.data;
+      singleShot();
     });
+  }
+
+  void singleShot() {
+    if (oneShotflag) {
+      Future.delayed(Duration(milliseconds: 200)).then((value) {
+        state = DataState.data;
+        oneShotflag = true;
+      });
+    }
+    oneShotflag = false;
   }
 
   List<Map<String, Map<String, dynamic>>> cantalarList = [];

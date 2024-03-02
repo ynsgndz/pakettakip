@@ -1,3 +1,4 @@
+import 'package:PrimeTasche/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_launcher_icons/xml_templates.dart';
@@ -12,8 +13,7 @@ import 'package:PrimeTasche/route_provider.dart';
 import 'package:riverpod_context/riverpod_context.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:vibration/vibration.dart';
-
-
+import 'package:visibility_detector/visibility_detector.dart';
 
 class BagListPage extends StatefulWidget {
   const BagListPage({super.key});
@@ -109,7 +109,6 @@ class _BagListPageState extends State<BagListPage> {
               ],
             ),
             bottom: TabBar(
-              
               tabs: [
                 Tab(
                   icon: Icon(Icons.delivery_dining_outlined),
@@ -127,162 +126,200 @@ class _BagListPageState extends State<BagListPage> {
             ),
           ),
           body: TabBarView(children: [
-            Stack(
-              children: [
-                Container(
-                    color: Colors.grey.shade100,
-                    child: Consumer(
-                      builder: (context, ref, child) {
-                        var state = ref.watch(bagListProvider.select((value) => value.state));
-                        ref.watch(bagListProvider.select((value) => value.kurye));
-                        var cantalar = context.read(bagListProvider).cantaKuryedeVer();
+            VisibilityDetector(
+              key: Key("Test"),
+              onVisibilityChanged: (info) {
+                if (info.visibleFraction < 0.5) {
+                  container.read(bagListProvider).selectIndex(-1);
+                }
+              },
+              child: Stack(
+                children: [
+                  Container(
+                      color: Colors.grey.shade100,
+                      child: Consumer(
+                        builder: (context, ref, child) {
+                          var state = ref.watch(bagListProvider.select((value) => value.state));
+                          ref.watch(bagListProvider.select((value) => value.kurye));
+                          var cantalar = context.read(bagListProvider).cantaKuryedeVer();
 
-                        if (state == DataState.loading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
+                          if (state == DataState.loading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
 
-                        if (cantalar.isNotEmpty) {
-                          return ListView.builder(
-                            reverse: true,
-                            itemCount: cantalar.length + 1,
-                            itemBuilder: (context, inde) {
-                              if (inde == 0) {
+                          if (cantalar.isNotEmpty) {
+                            return ListView.builder(
+                              itemCount: cantalar.length + 1,
+                              itemBuilder: (context, index) {
+                                if (index == cantalar.length) {
+                                  return Container(
+                                    height: 80,
+                                  );
+                                  // ignore: dead_code
+                                  return Container(
+                                    padding: EdgeInsets.only(left: 4),
+                                    decoration:
+                                        BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                                    margin: EdgeInsets.all(8),
+                                    height: 50,
+                                    width: double.infinity,
+                                    child: TextField(
+                                      onChanged: (value) {},
+                                      decoration: InputDecoration(
+                                          focusedBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          suffixIcon: Icon(Icons.search)),
+                                    ),
+                                  );
+                                }
+
                                 return Container(
-                                  height: 80,
-                                );
-                                // ignore: dead_code
-                                return Container(
-                                  padding: EdgeInsets.only(left: 4),
-                                  decoration:
-                                      BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
-                                  margin: EdgeInsets.all(8),
-                                  height: 50,
-                                  width: double.infinity,
-                                  child: TextField(
-                                    onChanged: (value) {},
-                                    decoration: InputDecoration(
-                                        focusedBorder: InputBorder.none,
-                                        enabledBorder: InputBorder.none,
-                                        suffixIcon: Icon(Icons.search)),
-                                  ),
-                                );
-                              }
-                              var index = inde - 1;
-                              return Container(
-                                color: Colors.white,
-                                margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    context.read(bagListProvider).unselect();
-                                  },
-                                  onLongPress: () async {
-                                    if (await Vibration.hasCustomVibrationsSupport() ?? false) {
-                                      Vibration.vibrate(duration: 100);
-                                    } else {
-                                      Vibration.vibrate();
-                                      await Future.delayed(Duration(milliseconds: 500));
-                                      Vibration.vibrate();
-                                    }
-                                    context.read(bagListProvider).selectIndex(index);
-                                    context.read(bagListProvider).setSelectedBagQR(cantalar.keys.elementAt(index));
-                                  },
-                                  child: Consumer(
-                                    builder: (context, ref, child) {
-                                      ref.watch(bagListProvider.select((value) => value.selectedIndex));
-                                      return Container(
-                                        color: context.read(bagListProvider).selectedIndex == index
-                                            ? Colors.blue.shade100
-                                            : Colors.white,
-                                        child: ListTile(
-                                          title: Text(cantalar.keys.elementAt(index),
-                                              style: GoogleFonts.openSans(color: Colors.blueAccent)),
-                                          subtitle: Row(
-                                            children: [
-                                              Text(
-                                                  DateTime.fromMillisecondsSinceEpoch(int.parse(
-                                                          cantalar[cantalar.keys.elementAt(index)]?["timestamp"]
-                                                                  .toString() ??
-                                                              "0"))
-                                                      .toString()
-                                                      .split(" ")
-                                                      .first,
-                                                  style: GoogleFonts.openSans()),
-                                              const Spacer(),
-                                              Text(
-                                                  context
-                                                      .read(kuryeListProvider)
-                                                      .kuryeVer()
-                                                      .values
-                                                      .where((element) {
-                                                        return element["mail"] ==
-                                                            cantalar[context.read(bagListProvider).kurye
-                                                                    ? context
-                                                                        .read(bagListProvider)
-                                                                        .cantaKuryedeVer()
-                                                                        .keys
-                                                                        .elementAt(index)
-                                                                    : context
-                                                                        .read(bagListProvider)
-                                                                        .cantaDepodaVer()
-                                                                        .keys
-                                                                        .elementAt(index)]?["lastUser"]
-                                                                .toString();
-                                                      })
-                                                      .toSet()
-                                                      .map((e) => e["name"])
-                                                      .toString()
-                                                      .replaceAll(")", "")
-                                                      .replaceAll("(", ""),
-                                                  style: GoogleFonts.openSans())
-                                            ],
-                                          ),
-                                        ),
-                                      );
+                                  color: Colors.white,
+                                  margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      context.read(bagListProvider).unselect();
                                     },
+                                    onLongPress: () async {
+                                      if (await Vibration.hasCustomVibrationsSupport() ?? false) {
+                                        Vibration.vibrate(duration: 100);
+                                      } else {
+                                        Vibration.vibrate();
+                                        await Future.delayed(Duration(milliseconds: 500));
+                                        Vibration.vibrate();
+                                      }
+                                      context.read(bagListProvider).selectIndex(index);
+                                      context.read(bagListProvider).setSelectedBagQR(cantalar.keys.elementAt(index));
+                                    },
+                                    child: Consumer(
+                                      builder: (context, ref, child) {
+                                        ref.watch(bagListProvider.select((value) => value.selectedIndex));
+                                        return Container(
+                                          color: context.read(bagListProvider).selectedIndex == index
+                                              ? Colors.blue.shade100
+                                              : Colors.white,
+                                          child: ListTile(
+                                            title: Text(cantalar.keys.elementAt(index),
+                                                style: GoogleFonts.openSans(color: Colors.blueAccent)),
+                                            subtitle: Row(
+                                              children: [
+                                                Text(
+                                                    DateTime.fromMillisecondsSinceEpoch(int.parse(
+                                                            cantalar[cantalar.keys.elementAt(index)]?["timestamp"]
+                                                                    .toString() ??
+                                                                "0"))
+                                                        .toString()
+                                                        .split(" ")
+                                                        .first,
+                                                    style: GoogleFonts.openSans()),
+                                                const Spacer(),
+                                                Text(
+                                                    context
+                                                        .read(kuryeListProvider)
+                                                        .kuryeVer()
+                                                        .values
+                                                        .where((element) {
+                                                          return element["mail"] ==
+                                                              cantalar[context.read(bagListProvider).kurye
+                                                                      ? context
+                                                                          .read(bagListProvider)
+                                                                          .cantaKuryedeVer()
+                                                                          .keys
+                                                                          .elementAt(index)
+                                                                      : context
+                                                                          .read(bagListProvider)
+                                                                          .cantaDepodaVer()
+                                                                          .keys
+                                                                          .elementAt(index)]?["lastUser"]
+                                                                  .toString();
+                                                        })
+                                                        .toSet()
+                                                        .map((e) => e["name"])
+                                                        .toString()
+                                                        .replaceAll(")", "")
+                                                        .replaceAll("(", ""),
+                                                    style: GoogleFonts.openSans())
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        } else if (state == DataState.loading) {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.blue,
-                            ),
-                          );
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.blue,
-                            ),
-                          );
-                        }
-                      },
-                    )),
-                Consumer(
-                  builder: (context, ref, child) {
-                    var index = ref.watch(bagListProvider.select((value) => value.selectedIndex));
+                                );
+                              },
+                            );
+                          } else if (state == DataState.loading) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.blue,
+                              ),
+                            );
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.blue,
+                              ),
+                            );
+                          }
+                        },
+                      )),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      var index = ref.watch(bagListProvider.select((value) => value.selectedIndex));
 
-                    if (index == -1) {
-                      return Container();
-                    }
-                    if (!context.read(bagListProvider).kurye) {
+                      if (index == -1) {
+                        return Container();
+                      }
+                      if (!context.read(bagListProvider).kurye) {
+                        return Container(
+                          height: double.infinity,
+                          width: double.infinity,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                                      onPressed: () {},
+                                      child: Text(
+                                        "Kuryeye zimmetle",
+                                        style: GoogleFonts.openSans(color: Colors.white),
+                                      )),
+                                ],
+                              ),
+                              Gap(8)
+                            ],
+                          ),
+                        );
+                      }
+
                       return Container(
+                          /*
                         height: double.infinity,
                         width: double.infinity,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 ElevatedButton(
                                     style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                                     onPressed: () {},
                                     child: Text(
-                                      "Kuryeye zimmetle",
+                                      "Kurye değiştir",
+                                      style: GoogleFonts.openSans(color: Colors.white),
+                                    )),
+                                ElevatedButton(
+                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                                    onPressed: () {},
+                                    child: Text(
+                                      "Depoya al",
                                       style: GoogleFonts.openSans(color: Colors.white),
                                     )),
                               ],
@@ -290,152 +327,136 @@ class _BagListPageState extends State<BagListPage> {
                             Gap(8)
                           ],
                         ),
-                      );
-                    }
-
-                    return Container(
-                        /*
-                      height: double.infinity,
-                      width: double.infinity,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                                  onPressed: () {},
-                                  child: Text(
-                                    "Kurye değiştir",
-                                    style: GoogleFonts.openSans(color: Colors.white),
-                                  )),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                                  onPressed: () {},
-                                  child: Text(
-                                    "Depoya al",
-                                    style: GoogleFonts.openSans(color: Colors.white),
-                                  )),
-                            ],
-                          ),
-                          Gap(8)
-                        ],
-                      ),
-                    */
-                        );
-                  },
-                )
-              ],
-            ),
-            Container(
-                color: Colors.grey.shade100,
-                child: Consumer(
-                  builder: (context, ref, child) {
-                    var state = ref.watch(bagListProvider.select((value) => value.state));
-                    ref.watch(bagListProvider.select((value) => value.kurye));
-                    var cantalar = context.read(bagListProvider).cantaDepodaVer();
-                    if (state == DataState.loading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-
-                    if (cantalar.isNotEmpty) {
-                      return ListView.builder(
-                        itemCount: cantalar.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            color: Colors.white,
-                            margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
-                            child: GestureDetector(
-                              onTap: () {
-                                context.read(bagListProvider).unselect();
-                              },
-                              onLongPress: () async {
-                                if (await Vibration.hasCustomVibrationsSupport() ?? false) {
-                                  Vibration.vibrate(duration: 100);
-                                } else {
-                                  Vibration.vibrate();
-                                  await Future.delayed(Duration(milliseconds: 500));
-                                  Vibration.vibrate();
-                                }
-                                context.read(bagListProvider).selectIndex(index);
-                                context.read(bagListProvider).setSelectedBagQR(cantalar.keys.elementAt(index));
-                              },
-                              child: Consumer(
-                                builder: (context, ref, child) {
-                                  ref.watch(bagListProvider.select((value) => value.selectedIndex));
-                                  return Container(
-                                    color: context.read(bagListProvider).selectedIndex == index
-                                        ? Colors.blue.shade100
-                                        : Colors.white,
-                                    child: ListTile(
-                                      title: Text(cantalar.keys.elementAt(index),
-                                          style: GoogleFonts.openSans(color: Colors.blueAccent)),
-                                      subtitle: Row(
-                                        children: [
-                                          Text(
-                                              DateTime.fromMillisecondsSinceEpoch(int.parse(
-                                                      cantalar[cantalar.keys.elementAt(index)]?["timestamp"]
-                                                              .toString() ??
-                                                          "0"))
-                                                  .toString()
-                                                  .split(" ")
-                                                  .first,
-                                              style: GoogleFonts.openSans()),
-                                          const Spacer(),
-                                          Text(
-                                              context
-                                                  .read(kuryeListProvider)
-                                                  .kuryeVer()
-                                                  .values
-                                                  .where((element) {
-                                                    return element["mail"] ==
-                                                        cantalar[context.read(bagListProvider).kurye
-                                                                ? context
-                                                                    .read(bagListProvider)
-                                                                    .cantaKuryedeVer()
-                                                                    .keys
-                                                                    .elementAt(index)
-                                                                : context
-                                                                    .read(bagListProvider)
-                                                                    .cantaDepodaVer()
-                                                                    .keys
-                                                                    .elementAt(index)]?["lastUser"]
-                                                            .toString();
-                                                  })
-                                                  .toSet()
-                                                  .map((e) => e["name"])
-                                                  .toString()
-                                                  .replaceAll(")", "")
-                                                  .replaceAll("(", ""),
-                                              style: GoogleFonts.openSans())
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
+                      */
                           );
-                        },
-                      );
-                    } else if (state == DataState.loading) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.blue,
-                        ),
-                      );
-                    } else {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.blue,
-                        ),
-                      );
-                    }
-                  },
-                )),
+                    },
+                  )
+                ],
+              ),
+            ),
+            VisibilityDetector(
+              key: Key("hello"),
+              onVisibilityChanged: (info) {
+                if (info.visibleFraction < 0.5) {
+                  container.read(bagListProvider).selectIndex(-1);
+                }
+              },
+              child: Container(
+                  color: Colors.grey.shade100,
+                  child: Consumer(
+                    builder: (context, ref, child) {
+                      var state = ref.watch(bagListProvider.select((value) => value.state));
+                      ref.watch(bagListProvider.select((value) => value.kurye));
+                      var cantalar = context.read(bagListProvider).cantaDepodaVer();
+                      if (state == DataState.loading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      if (cantalar.isNotEmpty) {
+                        return ListView.builder(
+                          itemCount: cantalar.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              color: Colors.white,
+                              margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                              child: GestureDetector(
+                                onTap: () {
+                                  context.read(bagListProvider).unselect();
+                                },
+                                onLongPress: () async {
+                                  if (await Vibration.hasCustomVibrationsSupport() ?? false) {
+                                    Vibration.vibrate(duration: 100);
+                                  } else {
+                                    Vibration.vibrate();
+                                    await Future.delayed(Duration(milliseconds: 500));
+                                    Vibration.vibrate();
+                                  }
+                                  context.read(bagListProvider).selectIndex(index);
+                                  context.read(bagListProvider).setSelectedBagQR(cantalar.keys.elementAt(index));
+                                },
+                                child: Consumer(
+                                  builder: (context, ref, child) {
+                                    ref.watch(bagListProvider.select((value) => value.selectedIndex));
+                                    return Container(
+                                      color: context.read(bagListProvider).selectedIndex == index
+                                          ? Colors.blue.shade100
+                                          : Colors.white,
+                                      child: ListTile(
+                                        title: Text(cantalar.keys.elementAt(index),
+                                            style: GoogleFonts.openSans(color: Colors.blueAccent)),
+                                        subtitle: Row(
+                                          children: [
+                                            Text(
+                                                DateTime.fromMillisecondsSinceEpoch(int.parse(
+                                                        cantalar[cantalar.keys.elementAt(index)]?["timestamp"]
+                                                                .toString() ??
+                                                            "0"))
+                                                    .toString()
+                                                    .split(" ")
+                                                    .first,
+                                                style: GoogleFonts.openSans()),
+                                            const Spacer(),
+                                            Text(
+                                                context
+                                                    .read(kuryeListProvider)
+                                                    .kuryeVer()
+                                                    .values
+                                                    .where((element) {
+                                                      return element["mail"] ==
+                                                          cantalar[context
+                                                                  .read(bagListProvider)
+                                                                  .cantaDepodaVer()
+                                                                  .keys
+                                                                  .elementAt(index)]?["lastUser"]
+                                                              .toString();
+                                                    })
+                                                    .toSet()
+                                                    .map((e) => e["name"])
+                                                    .toString()
+                                                    .replaceAll(")", "")
+                                                    .replaceAll("(", ""),
+                                                style: GoogleFonts.openSans())
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      } else if (state == DataState.loading) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.blue,
+                          ),
+                        );
+                      } else {
+                        return Container(
+                          color: Colors.white,
+                          child: Center(
+                              child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.not_interested_sharp,
+                                size: 50,
+                                color: Colors.red,
+                              ),
+                              Text(
+                                "Depoda çanta yok",
+                                style: GoogleFonts.openSans(color: Colors.blue, fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          )),
+                        );
+                      }
+                    },
+                  )),
+            ),
           ]),
         ),
       ),

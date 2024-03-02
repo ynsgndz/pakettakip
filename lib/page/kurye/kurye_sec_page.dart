@@ -69,7 +69,7 @@ class KuryeSecPage extends StatelessWidget {
                                 if (context.read(routeProvider).canPop()) {
                                   context.read(routeProvider).pop();
                                 }
-                                context.read(routeProvider).push("/baglist");
+                                //context.read(routeProvider).push("/baglist");
                               },
                               tileColor: Colors.white,
                               title: Text(

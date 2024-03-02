@@ -55,19 +55,6 @@ class MapController extends BaseController {
       var deneme = value;
       print(value["location"]);
       if (value["inAdress"]) {
-        Color tempColor = Colors.green;
-        var asd = DateTime.fromMillisecondsSinceEpoch(value["timestamp"]);
-        DateTime tempDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-        DateTime tempDate2 = DateTime(asd.year, asd.month, asd.day);
-        print("Duration is");
-        print(tempDate.difference(tempDate2));
-
-        if (tempDate.difference(tempDate2) >= Duration(days: 1)) {
-          tempColor = Colors.orange;
-        }
-        if (tempDate.difference(tempDate2) >= Duration(days: 2)) {
-          tempColor = Colors.red;
-        }
         marker.add(Marker(
             height: 60,
             width: 40,
@@ -89,7 +76,14 @@ class MapController extends BaseController {
                         backgroundColor: packetKey == key ? Colors.blue : Colors.transparent,
                         child: Icon(
                           Icons.location_on,
-                          color: tempColor,
+                          color: container
+                                      .read(bagListProvider)
+                                      .renkVer(DateTime.fromMillisecondsSinceEpoch(value["timestamp"])) ==
+                                  Colors.white
+                              ? Colors.blue
+                              : container
+                                  .read(bagListProvider)
+                                  .renkVer(DateTime.fromMillisecondsSinceEpoch(value["timestamp"])),
                           size: 40,
                         ),
                       ),
@@ -104,6 +98,7 @@ class MapController extends BaseController {
   }
 
   void getNearMarkers() {
+    _triger = 0;
     marker.clear();
     if (myLocation == null) {
       // showSimpleNotification(Text("Konum alma hatası"), background: Colors.blue);
@@ -129,19 +124,23 @@ class MapController extends BaseController {
             print("lat yakın");
             _triger++;
           }
-          if (_triger == 2) {
-            if ((DateTime.now().day - DateTime.fromMillisecondsSinceEpoch(value["timestamp"]).day) > 1) {
+
+          if (container.read(bagListProvider).renkVer(DateTime.fromMillisecondsSinceEpoch(value["timestamp"])) !=
+              Colors.white) {
+            if (_triger == 2) {
               showSimpleNotification(Text("100 Metre içerisinde alınması gereken çanta var."),
                   background: Colors.red, duration: Duration(seconds: 5));
-              marker.add(Marker(
-                  point: LatLng(double.parse(value["location"]["lat"].toString()),
-                      double.parse(value["location"]["lon"].toString())),
-                  child: const Icon(
-                    Icons.location_on,
-                    color: Colors.red,
-                    size: 40,
-                  )));
+              _triger++;
             }
+            marker.add(Marker(
+                point: LatLng(double.parse(value["location"]["lat"].toString()),
+                    double.parse(value["location"]["lon"].toString())),
+                child: Icon(
+                  Icons.location_on,
+                  color:
+                      container.read(bagListProvider).renkVer(DateTime.fromMillisecondsSinceEpoch(value["timestamp"])),
+                  size: 40,
+                )));
           }
         }
       },

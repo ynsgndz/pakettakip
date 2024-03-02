@@ -116,11 +116,24 @@ class _BagListPageState extends State<TeslimatListPage> {
                         ),
                       );
                     } else {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.blue,
-                        ),
-                      );
+                      return  Container(
+                          color: Colors.white,
+                          child: Center(
+                              child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.not_interested_sharp,
+                                size: 50,
+                                color: Colors.red,
+                              ),
+                              Text(
+                                "Teslimatta çanta yok",
+                                style: GoogleFonts.openSans(color: Colors.blue, fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          )),
+                        );
                     }
                   },
                 )),
