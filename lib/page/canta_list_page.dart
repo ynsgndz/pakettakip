@@ -66,7 +66,7 @@ class _BagListPageState extends State<BagListPage> {
                         context.read(routeProvider).push("/kuryesec");
                       },
                       label: container.read(languageProvider).isEnglish
-                          ? "Chnage the Courier"
+                          ? "Change the Courier"
                           : "den Fahrer zu wechseln."),
                   SpeedDialChild(
                       onTap: () {

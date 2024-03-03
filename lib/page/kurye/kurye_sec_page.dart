@@ -22,7 +22,8 @@ class KuryeSecPage extends StatelessWidget {
         title: Row(
           children: [
             Text(
-              "Lütfen Kurye seçin",
+              container.read(languageProvider).isEnglish?
+              "Please select a courier.":"Bitte wählen Sie einen Fahrer.",
               style: GoogleFonts.openSans(
                 fontSize: 20,
                 color: Colors.blue,
