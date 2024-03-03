@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    container.read(languageProvider).isEnglish ? "Log in" : "einloggen",
+                    container.read(languageProvider).isEnglish ? "Log in" : "Einloggen",
                     style: GoogleFonts.openSans(color: Colors.blue, fontSize: 30),
                   ),
                   Gap(30),
@@ -142,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                           height: 50,
                           child: Center(
                             child: Text(
-                              container.read(languageProvider).isEnglish ? "Log in" : "einloggen",
+                              container.read(languageProvider).isEnglish ? "Log in" : "Einloggen",
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
