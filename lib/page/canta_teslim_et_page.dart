@@ -1,3 +1,4 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class CantaTeslimEtPage extends StatelessWidget {
       appBar: AppBar(
         leading: const Icon(Icons.arrow_back),
         title: Text(
-          "Çanta Teslim et",
+          container.read(languageProvider).isEnglish ? "Delvier the bag" : "Übergeben Sie die Tasche.",
           style: GoogleFonts.openSans(color: Colors.blue, fontSize: 20),
         ),
       ),
@@ -81,7 +82,7 @@ class CantaTeslimEtPage extends StatelessWidget {
               child: TextField(
                 controller: context.read(inputProvider).paketNo,
                 decoration: InputDecoration(
-                    hintText: "Paket Numarası",
+                    hintText: container.read(languageProvider).isEnglish ? "Package number" : "Paketnummer",
                     hintStyle: GoogleFonts.openSans(),
                     prefixIcon: const Icon(
                       Icons.numbers,
@@ -119,7 +120,11 @@ class CantaTeslimEtPage extends StatelessWidget {
                       return;
                     }
                     if (context.read(inputProvider).paketNo.text.length < 1) {
-                      showSimpleNotification(const Text("Paket numarası boş geçilemez."), background: Colors.blue);
+                      showSimpleNotification(
+                          Text(container.read(languageProvider).isEnglish
+                              ? "The package number cannot be left blank."
+                              : "Die Parzellennummer kann nicht leer gelassen werden."),
+                          background: Colors.blue);
                       return;
                     }
 
@@ -133,12 +138,19 @@ class CantaTeslimEtPage extends StatelessWidget {
                         var temp = context.read(bagListProvider).cantaVer()[container.read(inputProvider).qr.text];
 
                         if (temp["lastUser"] != auth.currentUser!.email) {
-                          showSimpleNotification(const Text("Bu çanta size kayıtlı değil"), background: Colors.blue);
+                          showSimpleNotification(
+                              Text(container.read(languageProvider).isEnglish
+                                  ? "This bag is not registered to you."
+                                  : "Diese Tasche ist nicht auf Sie registriert."),
+                              background: Colors.blue);
                           return;
                         }
 
                         if (temp["inAdress"] == true) {
-                          showSimpleNotification(const Text("Çanta zaten bir adreste kayıtlı"),
+                          showSimpleNotification(
+                              Text(container.read(languageProvider).isEnglish
+                                  ? "The bag is already at an address."
+                                  : "Die Tasche befindet sich bereits an einer Adresse."),
                               background: Colors.blue);
                           return;
                         }
@@ -166,15 +178,22 @@ class CantaTeslimEtPage extends StatelessWidget {
 
                         print("sayi bu=<$tempSayi");
                         if (tempSayi < 10) {
-                          showSimpleNotification(Text("Çanta Miktarınız azalıyor.(${tempSayi - 1})"),
-                              background: Colors.red, duration: const Duration(seconds: 8));
+                          showSimpleNotification(
+                              Text(container.read(languageProvider).isEnglish
+                                  ? "Your Bag Quantity is decreasing."
+                                  : "Dir gehen die Taschen aus.(${tempSayi - 1})"),
+                              background: Colors.red,
+                              duration: const Duration(seconds: 8));
                         }
 
                         // context.read(routeProvider).pop();
                         //  context.read(routeProvider).pop();
                         sifreyiGoster(context, temp);
                       } else {
-                        showSimpleNotification(const Text("Bu QR kodu sistemde tanımlı değil."),
+                        showSimpleNotification(
+                            Text(container.read(languageProvider).isEnglish
+                                ? "This QR code is not recognized in the system."
+                                : "Dieser QR-Code wird vom System nicht erkannt."),
                             background: Colors.blue);
                       }
                     } on FirebaseException catch (a) {
@@ -185,7 +204,8 @@ class CantaTeslimEtPage extends StatelessWidget {
                     width: double.infinity,
                     height: 50,
                     child: Center(
-                      child: Text("Teslim Et",
+                      child: Text(
+                          container.read(languageProvider).isEnglish ? "Delvier the bag" : "Übergeben Sie die Tasche.",
                           style: GoogleFonts.openSans(color: Colors.white, fontWeight: FontWeight.w500)),
                     ),
                   )),
@@ -231,14 +251,14 @@ class CantaTeslimEtPage extends StatelessWidget {
                   ),
                   Gap(4),
                   Text(
-                    "Çanta No:${context.read(inputProvider).qr.text}",
+                    "QR:${context.read(inputProvider).qr.text}",
                     style: GoogleFonts.openSans(color: Colors.blue, fontSize: 18),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Şifre:",
+                        container.read(languageProvider).isEnglish ? "Password:" : "Passwort:",
                         style: GoogleFonts.openSans(color: Colors.blue, fontSize: 18),
                       ),
                       const Gap(4),
@@ -257,7 +277,7 @@ class CantaTeslimEtPage extends StatelessWidget {
                       context.read(routeProvider).pop();
                     },
                     child: Text(
-                      "Tamam",
+                      "OK",
                       style: GoogleFonts.openSans(color: Colors.white, fontSize: 18),
                     ),
                   )

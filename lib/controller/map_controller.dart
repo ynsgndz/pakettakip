@@ -1,3 +1,4 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -128,8 +129,12 @@ class MapController extends BaseController {
           if (container.read(bagListProvider).renkVer(DateTime.fromMillisecondsSinceEpoch(value["timestamp"])) !=
               Colors.white) {
             if (_triger == 2) {
-              showSimpleNotification(Text("100 Metre içerisinde alınması gereken çanta var."),
-                  background: Colors.red, duration: Duration(seconds: 5));
+              showSimpleNotification(
+                  Text(container.read(languageProvider).isEnglish
+                      ? "There's a bag to be picked up within 100 meters."
+                      : "Innerhalb von 100 Metern ist eine Tasche abzuholen."),
+                  background: Colors.red,
+                  duration: Duration(seconds: 5));
               _triger++;
             }
             marker.add(Marker(

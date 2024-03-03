@@ -1,3 +1,4 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,10 +35,7 @@ class _KuryeHomePageState extends State<KuryeHomePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              width: 50,
-              height: 50,
-            ),
+            container.read(languageProvider).languageWidget,
             Text(
               auth.currentUser?.displayName ?? "",
               style: GoogleFonts.openSans(
@@ -73,12 +71,12 @@ class _KuryeHomePageState extends State<KuryeHomePage> {
                       context.read(routeProvider).push("/kuryemap");
                       context.read(mapProvider).getNearMarkers();
                     },
-                    child: const SizedBox(
+                    child: SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: Center(
                         child: Text(
-                          "Çanta teslim et",
+                          container.read(languageProvider).isEnglish ? "Deliver the bag" : "Die Tasche zu übergeben.",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -97,12 +95,12 @@ class _KuryeHomePageState extends State<KuryeHomePage> {
                       context.read(routeProvider).push("/qrcamera");
                       context.read(mapProvider).konumuGetir();
                     },
-                    child: const SizedBox(
+                    child: SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: Center(
                         child: Text(
-                          "Çanta Teslim al",
+                          container.read(languageProvider).isEnglish ? "pick up the bag." : "Heben Sie die Tasche auf.",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -123,7 +121,7 @@ class _KuryeHomePageState extends State<KuryeHomePage> {
                       height: 50,
                       child: Center(
                         child: Text(
-                          "Harita",
+                          "Map",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -158,7 +156,9 @@ class _KuryeHomePageState extends State<KuryeHomePage> {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              "Kuryede:${context.read(infoProvider).kuryede}",
+                                              container.read(languageProvider).isEnglish
+                                                  ? "Courier:${context.read(infoProvider).kuryede}"
+                                                  : "Fahrer:${context.read(infoProvider).kuryede}",
                                               style: GoogleFonts.openSans(color: Colors.blue, fontSize: 18),
                                             ),
                                             const Gap(4),
@@ -168,7 +168,9 @@ class _KuryeHomePageState extends State<KuryeHomePage> {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              "Adreste:${context.read(infoProvider).adreste}",
+                                              container.read(languageProvider).isEnglish
+                                                  ? "at the Adress:${context.read(infoProvider).adreste}"
+                                                  : "unter der Adresse:${context.read(infoProvider).adreste}",
                                               style: GoogleFonts.openSans(color: Colors.blue, fontSize: 18),
                                             ),
                                             const Gap(4),
@@ -178,7 +180,9 @@ class _KuryeHomePageState extends State<KuryeHomePage> {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              "Toplam:${context.read(infoProvider).adreste + context.read(infoProvider).kuryede}",
+                                              container.read(languageProvider).isEnglish
+                                                  ? "Total:${context.read(infoProvider).adreste + context.read(infoProvider).kuryede}"
+                                                  : "Total:${context.read(infoProvider).adreste + context.read(infoProvider).kuryede}",
                                               style: GoogleFonts.openSans(color: Colors.blue, fontSize: 18),
                                             ),
                                             const Gap(4),
@@ -191,7 +195,7 @@ class _KuryeHomePageState extends State<KuryeHomePage> {
                                             context.pop();
                                           },
                                           child: Text(
-                                            "Tamam",
+                                            "OK",
                                             style: GoogleFonts.openSans(color: Colors.white, fontSize: 18),
                                           ),
                                         )
@@ -206,7 +210,7 @@ class _KuryeHomePageState extends State<KuryeHomePage> {
                       height: 50,
                       child: Center(
                         child: Text(
-                          "İnfo",
+                          "Info",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -219,7 +223,7 @@ class _KuryeHomePageState extends State<KuryeHomePage> {
                   if (connected) {
                     return Container();
                   }
-                  return const Row(
+                  return Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -231,7 +235,9 @@ class _KuryeHomePageState extends State<KuryeHomePage> {
                       Gap(8),
                       Expanded(
                         child: Text(
-                          "Lütfen uygulamayı kapatmayın sunuculara bağlandığında verileri eşitlenecek.",
+                          container.read(languageProvider).isEnglish
+                              ? "Please do not close the app, it will synchronize the data when it connects to the servers. "
+                              : "Bitte schließen Sie die Anwendung nicht, ihre Daten werden synchronisiert, wenn sie sich mit den Servern verbindet.",
                         ),
                       )
                     ],

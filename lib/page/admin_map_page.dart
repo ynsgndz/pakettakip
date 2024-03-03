@@ -1,3 +1,5 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
+import 'package:PrimeTasche/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
@@ -32,7 +34,7 @@ class _MapPageState extends State<AdminMapPage> {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-        "Harita",
+        "Map",
         style: GoogleFonts.openSans(color: Colors.blue),
       )),
       body: Stack(
@@ -58,7 +60,7 @@ class _MapPageState extends State<AdminMapPage> {
                 children: [
                   TileLayer(
                     urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    userAgentPackageName: 'com.yemekqr.pakettakip',
+                    userAgentPackageName: 'com.primetasche.app',
                     tileProvider: FMTC.instance('mapStore').getTileProvider(),
                     // Other parameters as normal
                   ),
@@ -91,7 +93,7 @@ class _MapPageState extends State<AdminMapPage> {
                               Row(
                                 children: [
                                   Text(
-                                    "Kurye Adı: ",
+                                    container.read(languageProvider).isEnglish ? "Courier name: " : "Fahrername",
                                     style: GoogleFonts.openSans(fontWeight: FontWeight.w600),
                                   ),
                                   Text(
@@ -113,7 +115,7 @@ class _MapPageState extends State<AdminMapPage> {
                               ),
                               Row(
                                 children: [
-                                  Text("QR kod: ", style: GoogleFonts.openSans(fontWeight: FontWeight.w600)),
+                                  Text("QR: ", style: GoogleFonts.openSans(fontWeight: FontWeight.w600)),
                                   Text(
                                     context.read(mapProvider).getKey(),
                                     style: GoogleFonts.openSans(color: Colors.blue),
@@ -123,7 +125,7 @@ class _MapPageState extends State<AdminMapPage> {
                               Row(
                                 children: [
                                   Text(
-                                    "Teslim tarihi: ",
+                                    container.read(languageProvider).isEnglish ? "Delivery date" : "Liefertermin: ",
                                     style: GoogleFonts.openSans(fontWeight: FontWeight.w600),
                                   ),
                                   Text(
@@ -134,7 +136,7 @@ class _MapPageState extends State<AdminMapPage> {
                               Row(
                                 children: [
                                   Text(
-                                    "Şifre: ",
+                                    container.read(languageProvider).isEnglish ? "Password: " : "Passwort",
                                     style: GoogleFonts.openSans(fontWeight: FontWeight.w600),
                                   ),
                                   Text(
@@ -147,7 +149,9 @@ class _MapPageState extends State<AdminMapPage> {
                           )
                         : Center(
                             child: Text(
-                              "Detaylar için haritada pinlere dokunun.",
+                              container.read(languageProvider).isEnglish
+                                  ? "Tap the pins on the map for details."
+                                  : "Tippen Sie auf die Stecknadeln auf der Karte, um Details zu erfahren.",
                               style: GoogleFonts.openSans(color: Colors.blue),
                             ),
                           ),

@@ -1,3 +1,5 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
+import 'package:PrimeTasche/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -30,7 +32,7 @@ class KuryeListPage extends StatelessWidget {
         title: Row(
           children: [
             Text(
-              "Kurye Listesi",
+              container.read(languageProvider).isEnglish ? "Courier List" : "Fahrer List",
               style: GoogleFonts.openSans(
                 fontSize: 20,
                 color: Colors.blue,
@@ -72,12 +74,20 @@ class KuryeListPage extends StatelessWidget {
                               ),
                               subtitle: Row(
                                 children: [
-                                  Text("Adreste: ${context.read(infoProvider).adreste}", style: GoogleFonts.openSans()),
+                                  Text(
+                                      container.read(languageProvider).isEnglish
+                                          ? "At the Adress: ${context.read(infoProvider).adreste}"
+                                          : "Unter der Adresse: ${context.read(infoProvider).adreste}",
+                                      style: GoogleFonts.openSans()),
                                   const Spacer(),
-                                  Text("Kuryede: ${context.read(infoProvider).kuryede}", style: GoogleFonts.openSans()),
+                                  Text(
+                                      container.read(languageProvider).isEnglish
+                                          ? "On The Courier: ${context.read(infoProvider).kuryede}"
+                                          : "Auf dem Fahrer: ${context.read(infoProvider).kuryede}",
+                                      style: GoogleFonts.openSans()),
                                   Spacer(),
                                   Text(
-                                    "Toplam: ${context.read(infoProvider).kuryede + context.read(infoProvider).adreste}",
+                                    "Total: ${context.read(infoProvider).kuryede + context.read(infoProvider).adreste}",
                                     style: GoogleFonts.openSans(),
                                   ),
                                 ],

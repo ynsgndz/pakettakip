@@ -1,3 +1,4 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class QrIslemPage extends StatelessWidget {
       appBar: AppBar(
         leading: const Icon(Icons.arrow_back),
         title: Text(
-          "Çanta işlemleri",
+          container.read(languageProvider).isEnglish ? "Bag transactions." : "Taschenoperationen.",
           style: GoogleFonts.openSans(color: Colors.blue, fontSize: 20),
         ),
       ),
@@ -92,7 +93,10 @@ class QrIslemPage extends StatelessWidget {
                         width: double.infinity,
                         height: 50,
                         child: Center(
-                          child: Text("Depoya Al",
+                          child: Text(
+                              container.read(languageProvider).isEnglish
+                                  ? "Put it in warehouse."
+                                  : "Lagern Sie es ein.",
                               style: GoogleFonts.openSans(color: Colors.white, fontWeight: FontWeight.w500)),
                         ),
                       )),
@@ -109,7 +113,11 @@ class QrIslemPage extends StatelessWidget {
                         context.read(bagListProvider).setSelectedBagQR(context.read(inputProvider).qr.text);
                         if (context.read(bagListProvider).cantaVer()[context.read(bagListProvider).selectedBagQr] ==
                             null) {
-                          showSimpleNotification(Text("Çanta bulunamadı."), background: Colors.blue);
+                          showSimpleNotification(
+                              Text(container.read(languageProvider).isEnglish
+                                  ? "bag not found."
+                                  : "Tasche nicht gefunden."),
+                              background: Colors.blue);
                         } else {
                           context.read(routeProvider).push("/kuryesec");
                         }
@@ -118,7 +126,10 @@ class QrIslemPage extends StatelessWidget {
                         width: double.infinity,
                         height: 50,
                         child: Center(
-                          child: Text("Kuryeye zimmetle",
+                          child: Text(
+                              container.read(languageProvider).isEnglish
+                                  ? "Give it to the courier."
+                                  : "Geben Sie es dem Kurier.",
                               style: GoogleFonts.openSans(color: Colors.white, fontWeight: FontWeight.w500)),
                         ),
                       )),

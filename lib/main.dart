@@ -12,13 +12,23 @@ import 'package:PrimeTasche/firebase_options.dart';
 import 'package:PrimeTasche/route_provider.dart';
 import 'package:riverpod_context/riverpod_context.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:PrimeTasche/controller/language_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterMapTileCaching.initialise();
   await FMTC.instance('mapStore').manage.createAsync();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  await GetStorage.init();
+  var storage = GetStorage();
+  if (storage.hasData("lang")) {
+    if (storage.read("lang")) {
+      container.read(languageProvider).english();
+    } else {
+      container.read(languageProvider).german();
+    }
+  }
   final connectedRef = FirebaseDatabase.instance.ref(".info/connected");
   connectedRef.onValue.listen((event) {
     final connected = event.snapshot.value as bool? ?? false;
@@ -48,10 +58,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-   
     FirebaseDatabase.instance.setPersistenceEnabled(true);
     FirebaseDatabase.instance.setPersistenceCacheSizeBytes(104857599);
-
+    auth = FirebaseAuth.instance;
     final cantalar = FirebaseDatabase.instance.ref("cantalar");
     cantalar.keepSynced(true);
 

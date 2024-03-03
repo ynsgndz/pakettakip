@@ -1,3 +1,4 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class CantaTeslimAlPage extends StatelessWidget {
       appBar: AppBar(
         leading: const Icon(Icons.arrow_back),
         title: Text(
-          "Çanta Teslim al",
+          container.read(languageProvider).isEnglish ? "Pick up the bag" : "Nehmen Sie die Tasche.",
           style: GoogleFonts.openSans(color: Colors.blue, fontSize: 20),
         ),
       ),
@@ -100,7 +101,10 @@ class CantaTeslimAlPage extends StatelessWidget {
                               return;
                             }*/
                             if (temp["inAdress"] == false && temp["inCourier"] == true) {
-                              showSimpleNotification(const Text("Bu çanta zaten teslim alınmış."),
+                              showSimpleNotification(
+                                  Text(container.read(languageProvider).isEnglish
+                                      ? "This bag has already been picked up."
+                                      : "Diese Tasche ist bereits abgeholt worden."),
                                   background: Colors.blue);
                               context.read(routeProvider).pop();
                               return;
@@ -124,9 +128,16 @@ class CantaTeslimAlPage extends StatelessWidget {
                               }
                             });
 
-                            showSimpleNotification(Text("${tempSayi + 1} adet çantanız var"), background: Colors.blue);
+                            showSimpleNotification(
+                                Text(container.read(languageProvider).isEnglish
+                                    ? "You have ${tempSayi + 1} bags"
+                                    : "Sie haben ${tempSayi + 1} Taschen"),
+                                background: Colors.blue);
                           } else {
-                            showSimpleNotification(const Text("Bu QR kodu sistemde tanımlı değil."),
+                            showSimpleNotification(
+                                Text(container.read(languageProvider).isEnglish
+                                    ? "This QR code is not recognized in the system."
+                                    : "Dieser QR-Code wird vom System nicht erkannt."),
                                 background: Colors.blue);
                           }
                         } on FirebaseException catch (a) {
@@ -137,7 +148,8 @@ class CantaTeslimAlPage extends StatelessWidget {
                         width: double.infinity,
                         height: 50,
                         child: Center(
-                          child: Text("Teslim Al",
+                          child: Text(
+                              container.read(languageProvider).isEnglish ? "Pick up the bag" : "Nehmen Sie die Tasche.",
                               style: GoogleFonts.openSans(color: Colors.white, fontWeight: FontWeight.w500)),
                         ),
                       )),

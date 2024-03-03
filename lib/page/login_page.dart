@@ -1,3 +1,4 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -29,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Giriş yapın",
+                    container.read(languageProvider).isEnglish ? "Log in" : "einloggen",
                     style: GoogleFonts.openSans(color: Colors.blue, fontSize: 30),
                   ),
                   Gap(30),
@@ -129,15 +130,19 @@ class _LoginPageState extends State<LoginPage> {
                                 email: context.read(inputProvider).mail.text,
                                 password: context.read(inputProvider).pass.text);
                           } on FirebaseAuthException catch (e) {
-                            showSimpleNotification(Text("Mail veya şifre yanlış."), background: Colors.blue);
+                            showSimpleNotification(
+                                Text(container.read(languageProvider).isEnglish
+                                    ? "The mail or password is wrong."
+                                    : "Die E-Mail oder das Passwort ist falsch."),
+                                background: Colors.blue);
                           }
                         },
-                        child: const SizedBox(
+                        child: SizedBox(
                           width: double.infinity,
                           height: 50,
                           child: Center(
                             child: Text(
-                              "Giriş Yap",
+                              container.read(languageProvider).isEnglish ? "Log in" : "einloggen",
                               style: TextStyle(color: Colors.white),
                             ),
                           ),

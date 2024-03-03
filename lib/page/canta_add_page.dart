@@ -1,3 +1,4 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class BagAddPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Çanta Ekle",
+          container.read(languageProvider).isEnglish ? "Add the bag" : "Tasche hinzufügen",
           style: GoogleFonts.openSans(color: Colors.blue, fontSize: 20),
         ),
       ),
@@ -107,14 +108,26 @@ class BagAddPage extends StatelessWidget {
                         FirebaseDatabase.instance.ref("cantalar/${container.read(inputProvider).qr.text}");
 
                     if (context.read(bagListProvider).cantaVer().containsKey(container.read(inputProvider).qr.text)) {
-                      showSimpleNotification(const Text("Daha önce bu çantayı eklediniz."), background: Colors.blue);
+                      showSimpleNotification(
+                          Text(container.read(languageProvider).isEnglish
+                              ? "You added this bag earlier."
+                              : "Sie haben diese Tasche vorhin hinzugefügt."),
+                          background: Colors.blue);
                     } else {
                       if (context.read(inputProvider).qr.text.isEmpty) {
-                        showSimpleNotification(const Text("QR kısmı boş bırakılamaz."), background: Colors.blue);
+                        showSimpleNotification(
+                            Text(container.read(languageProvider).isEnglish
+                                ? "The QR section cannot be left blank."
+                                : "Der QR-Teil kann nicht leer gelassen werden."),
+                            background: Colors.blue);
                         return;
                       }
                       if (context.read(inputProvider).cantaPass.text.isEmpty) {
-                        showSimpleNotification(const Text("Şifre kısmı boş bırakılamaz."), background: Colors.blue);
+                        showSimpleNotification(
+                            Text(container.read(languageProvider).isEnglish
+                                ? "The password section cannot be left blank."
+                                : "Das Feld für das Kennwort kann nicht leer gelassen werden."),
+                            background: Colors.blue);
                         return;
                       }
 
@@ -129,7 +142,9 @@ class BagAddPage extends StatelessWidget {
                         });
                         showSimpleNotification(
                             Text(
-                              "Çanta Başarıyla Eklendi",
+                              container.read(languageProvider).isEnglish
+                                  ? "Bag Successfully Added"
+                                  : "Tasche erfolgreich angebracht",
                               style: GoogleFonts.openSans(color: Colors.white),
                             ),
                             background: Colors.blue);
@@ -140,12 +155,12 @@ class BagAddPage extends StatelessWidget {
                       }
                     }
                   },
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: Center(
                       child: Text(
-                        "Ekle",
+                        container.read(languageProvider).isEnglish ? "Add" : "Hinzufügen",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),

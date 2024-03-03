@@ -55,7 +55,7 @@ class _MapPageState extends State<MapPage> {
             children: [
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.yemekqr.pakettakip',
+                userAgentPackageName: 'com.primetasche.app',
                 tileProvider: FMTC.instance('mapStore').getTileProvider(),
                 // Other parameters as normal
               ),

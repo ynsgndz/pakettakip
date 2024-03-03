@@ -16,7 +16,7 @@ class QrCameraPage extends StatelessWidget {
         title: Row(
           children: [
             Text(
-              "Qr kodunu taratın",
+              "QR",
               style: GoogleFonts.openSans(
                 fontSize: 20,
                 color: Colors.blue,

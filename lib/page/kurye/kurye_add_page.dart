@@ -1,3 +1,4 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
@@ -20,8 +21,10 @@ class KuryeAddPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Kurye Ekle",
+        title:  Text(
+          container.read(languageProvider).isEnglish?
+          "Add Courier":
+          "Fahrer hinzufügen",
           style: TextStyle(color: Colors.blue),
         ),
       ),
@@ -72,7 +75,7 @@ class KuryeAddPage extends StatelessWidget {
               child: TextField(
                 controller: context.read(inputProvider).kuryeEkleism,
                 decoration: InputDecoration(
-                    hintText: "Ad Soyad",
+                    hintText: container.read(languageProvider).isEnglish ?"Name Surname":"Name Nachname",
                     hintStyle: GoogleFonts.openSans(),
                     prefixIcon: const Icon(
                       Icons.label_outline,
@@ -102,7 +105,7 @@ class KuryeAddPage extends StatelessWidget {
                 controller: context.read(inputProvider).kuryeEklepass,
                 decoration: InputDecoration(
                     hintStyle: GoogleFonts.openSans(),
-                    hintText: "Şifre",
+                    hintText: container.read(languageProvider).isEnglish? "Password":"Passwort",
                     prefixIcon: const Icon(
                       Icons.password,
                       color: Colors.blueAccent,
@@ -135,12 +138,13 @@ class KuryeAddPage extends StatelessWidget {
                     await container.read(kuryeListProvider).register(
                         context.read(inputProvider).kuryeEkleMail.text, context.read(inputProvider).kuryeEklepass.text);
                   },
-                  child: const SizedBox(
+                  child:  SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: Center(
                       child: Text(
-                        "Ekle",
+                        container.read(languageProvider).isEnglish?
+                        "Add":"Hinzufügen",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),

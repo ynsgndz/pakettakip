@@ -1,3 +1,4 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -17,12 +18,9 @@ class AdminHomePage extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              width: 50,
-              height: 50,
-            ),
+            container.read(languageProvider).languageWidget,
             Text(
-              "Admin",
+              "Mod",
               style: GoogleFonts.openSans(
                 fontSize: 20,
                 color: Colors.blue,
@@ -95,12 +93,12 @@ class AdminHomePage extends StatelessWidget {
                     onPressed: () {
                       context.read(routeProvider).push("/kuryelist");
                     },
-                    child: const SizedBox(
+                    child: SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: Center(
                         child: Text(
-                          "Kurye Listesi",
+                          container.read(languageProvider).isEnglish ? "Courier List" : "Fahre List",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -116,12 +114,12 @@ class AdminHomePage extends StatelessWidget {
                     onPressed: () {
                       context.read(routeProvider).push("/teslimat");
                     },
-                    child: const SizedBox(
+                    child: SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: Center(
                         child: Text(
-                          "Teslimat Listesi",
+                          container.read(languageProvider).isEnglish ? "Delivery List" : "Zustellung List",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -138,12 +136,12 @@ class AdminHomePage extends StatelessWidget {
                       //context.read(bagListProvider).ver();
                       context.read(routeProvider).push("/baglist");
                     },
-                    child: const SizedBox(
+                    child: SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: Center(
                         child: Text(
-                          "Çanta listesi",
+                          container.read(languageProvider).isEnglish ? "Bag List" : "Tasche List",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -164,7 +162,7 @@ class AdminHomePage extends StatelessWidget {
                       height: 50,
                       child: Center(
                         child: Text(
-                          "Harita",
+                          "Map",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -182,12 +180,14 @@ class AdminHomePage extends StatelessWidget {
                       context.read(routeProvider).push("/qrislem");
                       context.read(routeProvider).push("/qrcamera");
                     },
-                    child: const SizedBox(
+                    child: SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: Center(
                         child: Text(
-                          "QR ile çanta işlemleri",
+                          container.read(languageProvider).isEnglish
+                              ? "Bag transactions with Qr"
+                              : "Taschen-Transaktionen mit Qr",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -200,7 +200,7 @@ class AdminHomePage extends StatelessWidget {
                   if (connected) {
                     return Container();
                   }
-                  return const Row(
+                  return Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -212,7 +212,9 @@ class AdminHomePage extends StatelessWidget {
                       Gap(8),
                       Expanded(
                         child: Text(
-                          "Lütfen uygulamayı kapatmayın sunuculara bağlandığında verileri eşitlenecek.",
+                          container.read(languageProvider).isEnglish
+                              ? "Please do not close the app, it will synchronize the data when it connects to the servers. "
+                              : "Bitte schließen Sie die Anwendung nicht, ihre Daten werden synchronisiert, wenn sie sich mit den Servern verbindet.",
                         ),
                       )
                     ],

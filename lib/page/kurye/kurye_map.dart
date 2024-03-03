@@ -1,3 +1,5 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
+import 'package:PrimeTasche/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
@@ -33,7 +35,8 @@ class _CantaTeslimEtPageState extends State<KuryeMap> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Lütfen konum seçin",
+          container.read(languageProvider).isEnglish?
+          "Please select the Location":"Bitte wählen Sie Ihren Standort.",
           style: GoogleFonts.openSans(color: Colors.blue, fontSize: 18),
         ),
       ),
@@ -65,7 +68,7 @@ class _CantaTeslimEtPageState extends State<KuryeMap> {
                   children: [
                     TileLayer(
                       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                      userAgentPackageName: 'com.yemekqr.pakettakip',
+                      userAgentPackageName: 'com.primetasche.app',
                       tileProvider: FMTC.instance('mapStore').getTileProvider(),
                       // Other parameters as normal
                     ),
@@ -103,7 +106,9 @@ class _CantaTeslimEtPageState extends State<KuryeMap> {
                           context.read(routeProvider).push("/qrcamera");
                         },
                         child: Text(
-                          "Konumu seç",
+                          container.read(languageProvider).isEnglish?
+                          "Select":
+                          "Wählen Sie",
                           style: GoogleFonts.openSans(),
                         )),
                     Gap(8)

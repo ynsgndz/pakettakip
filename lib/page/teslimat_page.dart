@@ -1,3 +1,5 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
+import 'package:PrimeTasche/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -31,8 +33,8 @@ class _BagListPageState extends State<TeslimatListPage> {
       appBar: AppBar(
         title: Row(
           children: [
-            Text(
-              "Teslimat Listesi",
+            Text(container.read(languageProvider).isEnglish?
+              "Delivery List":"Zustellung list",
               style: GoogleFonts.openSans(
                 fontSize: 20,
                 color: Colors.blue,
@@ -128,7 +130,8 @@ class _BagListPageState extends State<TeslimatListPage> {
                                 color: Colors.red,
                               ),
                               Text(
-                                "Teslimatta çanta yok",
+                                container.read(languageProvider).isEnglish?
+                                "There's no bag delivered.":"Keine Taschen geliefert.",
                                 style: GoogleFonts.openSans(color: Colors.blue, fontWeight: FontWeight.w500),
                               ),
                             ],

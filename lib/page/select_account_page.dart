@@ -1,4 +1,5 @@
 import 'package:PrimeTasche/controller/language_controller.dart';
+import 'package:PrimeTasche/main.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:PrimeTasche/route_provider.dart';
@@ -31,8 +32,8 @@ class AccountSelectPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Hesabınızın türünü seçin",
+                      Text(container.read(languageProvider).isEnglish?
+                        "Select the type of your account":"Wählen Sie die Art Ihres Kontos",
                         style: TextStyle(fontSize: 18, color: Colors.blueAccent),
                       ),
                     ],
@@ -67,11 +68,12 @@ class AccountSelectPage extends StatelessWidget {
                                   password: context.read(inputProvider).pass.text);
                            */
                             },
-                            child: const SizedBox(
+                            child:  SizedBox(
                               width: 100,
                               child: Center(
                                 child: Text(
-                                  "Kurye",
+                                  container.read(languageProvider).isEnglish?
+                                  "Courier":"Fahrer",
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
@@ -94,7 +96,7 @@ class AccountSelectPage extends StatelessWidget {
                             child: const SizedBox(
                               width: 100,
                               child: Center(
-                                child: Text("Admin"),
+                                child: Text("Mod"),
                               ),
                             ),
                           ),

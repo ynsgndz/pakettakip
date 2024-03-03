@@ -1,3 +1,4 @@
+import 'package:PrimeTasche/controller/language_controller.dart';
 import 'package:PrimeTasche/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -64,7 +65,9 @@ class _BagListPageState extends State<BagListPage> {
                       onTap: () {
                         context.read(routeProvider).push("/kuryesec");
                       },
-                      label: "Kurye Değiştir"),
+                      label: container.read(languageProvider).isEnglish
+                          ? "Chnage the Courier"
+                          : "den Fahrer zu wechseln."),
                   SpeedDialChild(
                       onTap: () {
                         context.read(bagListProvider).depoyaAl();
@@ -74,7 +77,7 @@ class _BagListPageState extends State<BagListPage> {
                         Icons.warehouse_outlined,
                         color: Colors.white,
                       ),
-                      label: "Depoya Al")
+                      label: container.read(languageProvider).isEnglish ? "put it in Warehouse" : "einlagern.")
                 ],
                 child: Icon(
                   Icons.menu,
@@ -100,7 +103,7 @@ class _BagListPageState extends State<BagListPage> {
             title: Row(
               children: [
                 Text(
-                  "Çanta Listesi",
+                  container.read(languageProvider).isEnglish ? "Bag List" : "Tasche List",
                   style: GoogleFonts.openSans(
                     fontSize: 20,
                     color: Colors.blue,
@@ -112,11 +115,11 @@ class _BagListPageState extends State<BagListPage> {
               tabs: [
                 Tab(
                   icon: Icon(Icons.delivery_dining_outlined),
-                  text: "Kuryeye zimmetliler",
+                  text: container.read(languageProvider).isEnglish ? "On The Courier" : "Auf dem Fahrer",
                 ),
                 Tab(
                   icon: Icon(Icons.warehouse_outlined),
-                  text: "Depodakiler",
+                  text: container.read(languageProvider).isEnglish ? "In the warehouse" : "Lagerhaus",
                 ),
               ],
               onTap: (value) {
@@ -287,7 +290,9 @@ class _BagListPageState extends State<BagListPage> {
                                       style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                                       onPressed: () {},
                                       child: Text(
-                                        "Kuryeye zimmetle",
+                                        container.read(languageProvider).isEnglish
+                                            ? "Give it to the courier."
+                                            : "Geben Sie es dem Fahrer",
                                         style: GoogleFonts.openSans(color: Colors.white),
                                       )),
                                 ],
@@ -447,7 +452,9 @@ class _BagListPageState extends State<BagListPage> {
                                 color: Colors.red,
                               ),
                               Text(
-                                "Depoda çanta yok",
+                                container.read(languageProvider).isEnglish
+                                    ? "No bags in the warehouse"
+                                    : "Keine Säcke im Lagerhaus",
                                 style: GoogleFonts.openSans(color: Colors.blue, fontWeight: FontWeight.w500),
                               ),
                             ],
